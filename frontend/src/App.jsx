@@ -2,8 +2,13 @@ import { useState } from 'react'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
+import axios from 'axios'
 import './App.css'
 
+//testing backend comms
+axios.defaults.baseURL = 'http://localhost:5555'
+
+//default app
 function App() {
   const [count, setCount] = useState(0)
 
@@ -18,13 +23,17 @@ function App() {
         <div>
           <h1>Get started</h1>
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Edit <code>src/App.jsx</code> and save to test <code>chong</code>
           </p>
         </div>
         <button
           type="button"
           className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          onClick={() => 
+            axios.get('/test').then((response) => {
+                console.log(response.data)
+            })
+          }
         >
           Count is {count}
         </button>
