@@ -30,8 +30,8 @@ function App() {
           type="button"
           className="counter"
           onClick={() => 
-            axios.get('/test').then((response) => {
-                console.log(response.data)
+            axios.get('/items').then((response) => {
+                console.log(response.data);
             })
           }
         >
