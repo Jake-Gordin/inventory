@@ -1,0 +1,1 @@
+Hello World! This will be the home of my Nov 2026 CRUD application attempt.
