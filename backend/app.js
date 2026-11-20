@@ -32,6 +32,7 @@ server.listen(listenPort, () => console.log(`server listening for https on port:
 app.get('/test', (req, res) => {
     res.send("Backend responds too!")
 })
+//list all items
 app.get('/items', (req, res) => {
     const queryText = `select * from items`;
     mySQLCon.query(queryText, async (error, result) => {
