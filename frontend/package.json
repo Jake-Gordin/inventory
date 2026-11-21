@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "axios": "^1.21.1",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "vite-plugin-mkcert": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

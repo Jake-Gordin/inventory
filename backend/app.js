@@ -14,6 +14,16 @@ const http = require ('http');
 const app = express();
 app.use(cors());
 app.use(express.json());
+//encryption / math
+const fs = require ('fs');
+const https = require ('https');
+var cert = fs.readFileSync('./certs/localhost.pem');
+var key = fs.readFileSync('./certs/localhost-key.pem');
+var HTTPSoptions = {
+  key: key,
+  cert: cert
+};
+const bcrypt = require('bcrypt');
 //connect to local db
 const mysql = require ('mysql');
 const mySQLCon = mysql.createConnection({
@@ -27,11 +37,36 @@ mySQLCon.connect(function(error) {
   if (error) throw error;
 })
 //start server
-var server = http.createServer(app);
+var server = https.createServer(HTTPSoptions, app);
 server.listen(listenPort, () => console.log(`server listening for https on port: ` + listenPort));
 app.get('/test', (req, res) => {
     res.send("Backend responds too!")
 })
+//encryption functions
+//encrypt password
+async function encryptPassword(password) {
+  const salt = 10;
+  try {
+    const encryptedPassword = await bcrypt.hash(password, salt);
+    return encryptedPassword;
+  }
+  catch (error) {
+    console.log("Failed encryption process: ", error);
+    throw error;
+  }
+}
+//check password
+async function comparePassword(password, encryptedPassword) {
+  try {
+    const verdict = await bcrypt.compare(password, encryptedPassword);
+    return verdict;
+  }
+  catch (error) {
+    console.log("Failed password compare process", error);
+    throw error;
+  }
+}
+//db functions
 //list all items
 app.get('/items', (req, res) => {
     const queryText = `select * from items`;
@@ -43,6 +78,63 @@ app.get('/items', (req, res) => {
       }
       else {
         res.send(result);
+      }
+    })
+})
+//register new user
+app.post('/register', async (req, res) => {
+    const reqData = req.body;
+     var encryptedPassword = ''
+    try {
+      encryptedPassword = await encryptPassword(reqData.password);
+    }
+    catch (error) {
+      console.log(error)
+      res.send(error)
+    }
+    const sqlparams = [reqData.firstName, reqData.lastName, reqData.userName, encryptedPassword];
+    const queryText = `insert into users (firstName, lastName, userName, password) values (?, ?, ?, ?);`
+    mySQLCon.query(queryText, sqlparams, (error, result) => {
+      if (error) {
+        console.log("DB Error: " + error.code);
+        console.log("DB Error Message: " + error.message);
+        res.send(error.code);
+        return;
+      }
+      const currentUser = {
+            currentUser: reqData.user
+        }
+      res.send(currentUser);
+    })
+})
+//existing user login
+app.post('/login', (req, res) => {
+    console.log("received login request")
+    const reqData = req.body;
+    const sqlparams = [reqData.userName];
+    const queryText = `select * from users where userName = ?`;
+    console.log("format login query")
+    mySQLCon.query(queryText, sqlparams, async (error, result) => {
+      if (result.length < 1) {
+        console.log("no matching username");
+        res.send("ERR_NO_USER");
+      }
+      else {
+        var passwordVerdict = false
+        try {
+          passwordVerdict = await comparePassword(reqData.password, result[0].password)
+        }
+        catch (error) {
+          console.log("error comparing passwords")
+          console.log(error)
+          res.send(error)
+        }
+        if (passwordVerdict) {
+          res.send("match")
+        }
+        else {
+          res.send("mismatch")
+        }
       }
     })
 })

@@ -1,11 +1,11 @@
-import { ItemDetailsButton } from "./Buttons"
+import { ItemDetailsButton } from "./buttons"
 export function ItemListEntry({item}) {
     return (
         <tr key={item.id}>
             <th>{item.name}</th>
             <td>{item.shortDescription}</td>
             <td>{item.quantity}</td>
-            <td><ItemDetailsButton/></td>
+            <td><ItemDetailsButton item={item}/></td>
         </tr>
     )
 }
