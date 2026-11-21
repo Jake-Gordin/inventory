@@ -5,15 +5,18 @@ import {MainPage, RegisterPage, InventoryPage} from './components/pages';
 export const PageContext = createContext();
 //render
 function App() {
+  //states
   const [currentPage, setCurrentPage] = useState('main');
   const [currentUser, setCurrentUser] = useState('Guest');
   const [currentUserID, setCurrentUserID] = useState(0);
+  const [items, setItems] = useState([]);
+  //render
   return (
     <div style={styles.mainContainer}>
-      <PageContext.Provider value={{currentPage, setCurrentPage, currentUser, setCurrentUser}}>
+      <PageContext.Provider value={{currentPage, setCurrentPage, currentUser, setCurrentUser, items, setItems}}>
         {currentPage === 'main' && <MainPage/>}
         {currentPage === 'register' && <RegisterPage/>}
-        {currentPage === 'inventory' && <InventoryPage/>}
+        {currentPage === 'inventory' && <InventoryPage items={items}/>}
       </PageContext.Provider>
       <footer style={styles.footer}>
         Created by 2d Lt George "Jake" Gordin for Supra Coders RAP CRUD Application - Nov 2026

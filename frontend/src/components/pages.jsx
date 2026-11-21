@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton} from '../components/buttons'
+import {ItemListEntry} from './data'
 import {PageContext} from '../App'
 //pages
 export function MainPage() {
+    //render
     return (
         <div style={styles.centerContainer}>
             <h1>Welcome to the inventory!</h1>
@@ -13,13 +16,29 @@ export function MainPage() {
         </div>
     )
 }
-export function InventoryPage() {
+export function InventoryPage({items}) {
+    //render
     return (
         <PageContext.Consumer>
         {({currentUser}) => (
         <div style={styles.centerContainer}>
             <h2>Currently logged in as: {currentUser}</h2>
             <h2>Current Inventory:</h2>
+             <table className="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                {items.map((item) => (
+                    <ItemListEntry item={item} key={item.id}/>
+                ))}
+                </tbody>
+            </table>
             <BackButton/>
         </div>
         )}
@@ -27,6 +46,7 @@ export function InventoryPage() {
     )
 }
 export function RegisterPage() {
+    //render
     return (
         <RegisterButton/>
     )
