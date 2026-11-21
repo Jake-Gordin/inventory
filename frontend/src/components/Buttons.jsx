@@ -60,6 +60,25 @@ function getAllInventory({setItems}) {
         setItems(newItems); 
     })
 }
+//get inventory for a specific user
+function getUserInventory({setItems}) {
+    axios.post('/users/items').then((response) => {
+        var newItems = [];
+        //console.log("requesting all items")
+        const regResult = response.data;
+            regResult.forEach(element => {
+                var shortDescription = '';
+                if (element.description.length > 100) {
+                    shortDescription = (element.description.slice(0, 100) + "...");
+                }
+                else {
+                    shortDescription = element.description;
+                }
+                newItems.push({id: element.ID, user: element.userID, name: element.itemName, description: element.description, shortDescription: shortDescription, quantity: element.quantity})
+        });
+        setItems(newItems); 
+    })
+}
 //register new user
 async function registrationHandler(newUsername, newFirstName, newLastName, newPassword, setCurrentPage, setCurrentUser, setDuplicateUserNameMessage) {
     const registrationPackage = {
@@ -101,6 +120,8 @@ async function loginHandler(loginUserName, loginPassword, setCurrentPage, setCur
             else if (regResult === "match") {
                 console.log("login success")
                 setIncorrectLoginMessage(false)
+                setCurrentPage('inventory')
+                setCurrentUser(loginUserName)
             }
             else {
                 console.log("incorrect password")

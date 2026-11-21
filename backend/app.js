@@ -81,6 +81,23 @@ app.get('/items', (req, res) => {
       }
     })
 })
+//list user-specific items
+app.post('/users/items', (req, res) => {
+    const reqData = req.body;
+    const targetID = reqData.id;
+    const sqlParams = [targetID];
+    const queryText = `select * from items where userID = ?`;
+    mySQLCon.query(queryText, sqlParams, async (error, result) => {
+      if (error) {
+        console.log("DB Error: " + error.code);
+        res.send("DB_ERROR: " + error.code);
+        return;
+      }
+      else {
+        res.send(result);
+      }
+    })
+})
 //register new user
 app.post('/register', async (req, res) => {
     const reqData = req.body;
