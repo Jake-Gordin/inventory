@@ -1,6 +1,6 @@
 //imports / requirements
 import {createContext, useState} from 'react'
-import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage} from './components/pages'
+import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage} from './components/pages'
 //context
 export const PageContext = createContext();
 //render
@@ -9,7 +9,6 @@ function App() {
   const [currentPage, setCurrentPage] = useState('main');
   const [currentUser, setCurrentUser] = useState('Guest');
   const [detailsTarget, setDetailsTarget] = useState(0);
-  const [currentUserID, setCurrentUserID] = useState(0);
   const [items, setItems] = useState([]);
   const [duplicateUserNameMessage, setDuplicateUserNameMessage] = useState(false);
   const [incorrectLoginMessage, setIncorrectLoginMessage] = useState(false);
@@ -20,9 +19,10 @@ function App() {
           detailsTarget, setDetailsTarget, duplicateUserNameMessage, setDuplicateUserNameMessage, incorrectLoginMessage, setIncorrectLoginMessage}}>
         {currentPage === 'main' && <MainPage/>}
         {currentPage === 'register' && <RegisterPage duplicateUserNameMessage={duplicateUserNameMessage}/>}
-        {currentPage === 'inventory' && <InventoryPage items={items}/>}
+        {currentPage === 'inventory' && <InventoryPage items={items} setItems={setItems} currentUser={currentUser}/>}
         {currentPage === 'itemDetails' && <ItemDetailsPage detailsTarget={detailsTarget}/>}
         {currentPage === 'login' && <LoginPage incorrectLoginMessage={incorrectLoginMessage}/>}
+        {currentPage === 'addItem' && <AddItemPage currentUser={currentUser}/>}
       </PageContext.Provider>
       <footer style={styles.footer}>
         Created by 2d Lt George "Jake" Gordin for Supra Coders RAP CRUD Application - Nov 2026

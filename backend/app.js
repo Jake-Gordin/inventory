@@ -24,6 +24,7 @@ var HTTPSoptions = {
   cert: cert
 };
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 //connect to local db
 const mysql = require ('mysql');
 const mySQLCon = mysql.createConnection({
@@ -84,24 +85,40 @@ app.get('/items', (req, res) => {
 //list user-specific items
 app.post('/users/items', (req, res) => {
     const reqData = req.body;
-    const targetID = reqData.id;
-    const sqlParams = [targetID];
-    const queryText = `select * from items where userID = ?`;
+    const targetUser = reqData.currentUser;
+    var sqlParams = [targetUser];
+    var queryText = `select ID from users where userName = ?`;
     mySQLCon.query(queryText, sqlParams, async (error, result) => {
       if (error) {
         console.log("DB Error: " + error.code);
-        res.send("DB_ERROR: " + error.code);
+        res.send("Error retrieving User ID");
         return;
       }
       else {
-        res.send(result);
+        sqlParams = [result[0].ID];
+        //console.log("searching using this username:")
+        //console.log(targetUser)
+        //console.log("discovered this user ID:")
+        //console.log(result[0].ID)
+        queryText = `select * from items where userID = ?`;
+        mySQLCon.query(queryText, sqlParams, async (error, result) => {
+        if (error) {
+          console.log("DB Error: " + error.code);
+          res.send("Error retrieving User Items");
+          return;
+        }
+        else {
+          res.send(result)
+        }
+      })
       }
     })
 })
 //register new user
 app.post('/register', async (req, res) => {
     const reqData = req.body;
-     var encryptedPassword = ''
+    //console.log(reqData)
+    var encryptedPassword
     try {
       encryptedPassword = await encryptPassword(reqData.password);
     }
@@ -118,10 +135,21 @@ app.post('/register', async (req, res) => {
         res.send(error.code);
         return;
       }
-      const currentUser = {
-            currentUser: reqData.user
-        }
-      res.send(currentUser);
+      else {
+        const sqlparams = [reqData.userName];
+        const queryText = `select * from users where userName = ?`;
+        mySQLCon.query(queryText, sqlparams, (error, result) => {
+            if (error) {
+              console.log("DB Error: " + error.code);
+              console.log("DB Error Message: " + error.message);
+              res.send(error.code);
+              return;
+            }
+            else {
+              res.send(result[0].ID);
+            }
+        })
+      }
     })
 })
 //existing user login
@@ -130,6 +158,7 @@ app.post('/login', (req, res) => {
     const reqData = req.body;
     const sqlparams = [reqData.userName];
     const queryText = `select * from users where userName = ?`;
+    var userID;
     console.log("format login query")
     mySQLCon.query(queryText, sqlparams, async (error, result) => {
       if (result.length < 1) {
@@ -139,6 +168,7 @@ app.post('/login', (req, res) => {
       else {
         var passwordVerdict = false
         try {
+          userID = result[0].ID
           passwordVerdict = await comparePassword(reqData.password, result[0].password)
         }
         catch (error) {
@@ -147,11 +177,43 @@ app.post('/login', (req, res) => {
           res.send(error)
         }
         if (passwordVerdict) {
-          res.send("match")
+          res.send(userID)
         }
         else {
           res.send("mismatch")
         }
+      }
+    })
+})
+//add new item
+app.post('/items', (req, res) => {
+    const reqData = req.body;
+    const targetUser = reqData.currentUser;
+    var sqlParams = [targetUser];
+    var queryText = `select ID from users where userName = ?`;
+    mySQLCon.query(queryText, sqlParams, async (error, result) => {
+      if (error) {
+        console.log("DB Error: " + error.code);
+        res.send("Error retrieving User ID!");
+        return;
+      }
+      else {
+        //console.log("with this username:")
+        //console.log(targetUser)
+        //console.log("attempting to add item with this user id:")
+        //console.log(result)
+        sqlParams = [result[0].ID, reqData.itemName, reqData.itemDescription, reqData.itemQuantity];
+        queryText = `insert into items (userID, name, description, quantity) values (?, ?, ?, ?);`
+        mySQLCon.query(queryText, sqlParams, async (error, result) => {
+        if (error) {
+          console.log("DB Error: " + error.code);
+          res.send("Error adding new item!");
+          return;
+        }
+        else {
+          res.send("item added successfully!")
+        }
+      })
       }
     })
 })

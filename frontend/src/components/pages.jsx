@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton, EditButton, SubmitRegistrationButton,
-    SubmitLoginButton} from '../components/buttons'
-import {ItemListEntry} from './data'
+    SubmitLoginButton, SubmitItemButton, BackToInventoryButton} from '../components/buttons'
+import {InventoryTable} from './data'
 import {PageContext} from '../App'
 //UI functions
 function editColumnText(currentUser) {
@@ -26,33 +26,17 @@ export function MainPage() {
         </div>
     )
 }
-export function InventoryPage({items}) {
+export function InventoryPage({items, setItems, currentUser}) {
     //render
+    //console.log("items as seen by page: ")
+    //console.log(items)
     return (
-        <PageContext.Consumer>
-        {({currentUser}) => (
         <div style={styles.centerContainer}>
             <h2>Currently logged in as: {currentUser}</h2>
             <h2>Current Inventory:</h2>
-             <table className="table">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>Details</th>
-                </tr>
-                </thead>
-                <tbody>
-                {items.map((item) => (
-                    <ItemListEntry item={item} key={item.id}/>
-                ))}
-                </tbody>
-            </table>
+            <InventoryTable items={items} currentUser={currentUser}/>
             <BackButton/>
         </div>
-        )}
-        </PageContext.Consumer>
     )
 }
 export function ItemDetailsPage({detailsTarget}) {
@@ -92,7 +76,7 @@ export function RegisterPage({duplicateUserNameMessage}) {
     const [newUserName, setNewUserName] = useState('');
     const [newFirstName, setNewFirstName] = useState('');
     const [newLastName, setNewLastName] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+    const [registerPassword, setRegisterPassword] = useState('');
     //monitor fields
     const changeNewUserName = (e) => {
         setNewUserName(e.target.value);
@@ -104,7 +88,7 @@ export function RegisterPage({duplicateUserNameMessage}) {
         setNewLastName(e.target.value);
     }
     const changeNewPassword = (e) => {
-        setNewPassword(e.target.value);
+        setRegisterPassword(e.target.value);
     }
     //render
     return (
@@ -116,7 +100,7 @@ export function RegisterPage({duplicateUserNameMessage}) {
             <input name='newFirstName' onChange={changeNewFirstName} placeholder="First Name"></input>
             <input name='newLastName' onChange={changeNewLastName} placeholder="Last Name"></input>
             <input name='newPassword' onChange={changeNewPassword} placeholder="Password"></input>
-            <SubmitRegistrationButton newUsername={newUserName} newFirstName={newFirstName} newLastName={newLastName} newPassword={newPassword}/>
+            <SubmitRegistrationButton newUsername={newUserName} newFirstName={newFirstName} newLastName={newLastName} registerPassword={registerPassword}/>
             <BackButton/>
         </div>
     )
@@ -141,6 +125,35 @@ export function LoginPage({incorrectLoginMessage}) {
             <input name='loginPassword' onChange={changeLoginPassword} placeholder="Password"></input>
             <SubmitLoginButton loginUserName={loginUserName} loginPassword={loginPassword}/>
             <BackButton/>
+        </div>
+    )
+}
+export function AddItemPage({currentUser}) {
+    //states
+    const [newItemName, setNewItemName] = useState('');
+    const [newItemDescription, setNewItemDescription] = useState('');
+    const [newItemQuantity, setNewItemQuantity] = useState(0);
+    //monitor fields
+    const changeItemName = (e) => {
+        setNewItemName(e.target.value);
+    }
+    const changeItemDescription = (e) => {
+        setNewItemDescription(e.target.value);
+    }
+    const changeItemQuantity = (e) => {
+        setNewItemQuantity(e.target.value);
+    }
+    //render
+    return (
+        <div style={styles.centerContainer}>
+            <h1>Logged in as: {currentUser}</h1>
+            <h1>New Item:</h1>
+            <h3>Add item details:</h3>
+            <input name='newItemName' onChange={changeItemName} placeholder="Item Name"></input>
+            <input name='newItemDescription' onChange={changeItemDescription} placeholder="Description"></input>
+            <input type='number' name='newItemQuantity' onChange={changeItemQuantity} placeholder="Quantity"></input>
+            <SubmitItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity}/>
+            <BackToInventoryButton/>
         </div>
     )
 }
