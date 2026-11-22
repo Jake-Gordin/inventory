@@ -1,6 +1,6 @@
 //imports / requirements
 import {createContext, useState} from 'react'
-import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage} from './components/pages'
+import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage, EditItemPage} from './components/pages'
 //context
 export const PageContext = createContext();
 //render
@@ -19,10 +19,11 @@ function App() {
           detailsTarget, setDetailsTarget, duplicateUserNameMessage, setDuplicateUserNameMessage, incorrectLoginMessage, setIncorrectLoginMessage}}>
         {currentPage === 'main' && <MainPage/>}
         {currentPage === 'register' && <RegisterPage duplicateUserNameMessage={duplicateUserNameMessage}/>}
-        {currentPage === 'inventory' && <InventoryPage items={items} setItems={setItems} currentUser={currentUser}/>}
+        {currentPage === 'inventory' && <InventoryPage items={items} currentUser={currentUser}/>}
         {currentPage === 'itemDetails' && <ItemDetailsPage detailsTarget={detailsTarget}/>}
         {currentPage === 'login' && <LoginPage incorrectLoginMessage={incorrectLoginMessage}/>}
         {currentPage === 'addItem' && <AddItemPage currentUser={currentUser}/>}
+        {currentPage === 'edit' && <EditItemPage detailsTarget={detailsTarget} currentUser={currentUser}/>}
       </PageContext.Provider>
       <footer style={styles.footer}>
         Created by 2d Lt George "Jake" Gordin for Supra Coders RAP CRUD Application - Nov 2026

@@ -32,12 +32,12 @@ function backHandler(setCurrentPage, currentUser, setCurrentUser, setDuplicateUs
         setCurrentPage('main');
     }
 }
-function editHandler(currentUser, setCurrentPage, detailsTarget) {
+function editMenuHandler(currentUser, setCurrentPage) {
     if (currentUser == 'Guest') {
         setCurrentPage('inventory');
     }
     else {
-        //edit function
+        setCurrentPage('edit');
     }
 }
 //API functions
@@ -80,7 +80,8 @@ function getUserInventory(setItems, currentUser) {
                 }
                 newItems.push({id: element.ID, user: element.userID, name: element.name, description: element.description, shortDescription: shortDescription, quantity: element.quantity})
         });
-        setItems(newItems); 
+        setItems(newItems);
+        //console.log(newItems)
     })
 }
 function addItemHandler(newItemName, newItemDescription, 
@@ -91,8 +92,8 @@ function addItemHandler(newItemName, newItemDescription,
             itemQuantity : Number(newItemQuantity),
             currentUser : currentUser
     }
-    console.log("new item package:")
-    console.log(newItemPackage)
+    //console.log("new item package:")
+    //console.log(newItemPackage)
     axios.post('/items', newItemPackage).then((response) => {
         const regResult = response.data;
         if (regResult == 'ITEM_ADD_ERROR') {
@@ -100,6 +101,28 @@ function addItemHandler(newItemName, newItemDescription,
         }
         else {
             console.log("item added!")
+        }
+        getUserInventory(setItems, currentUser)
+        setCurrentPage('inventory') 
+    })
+}
+function editItemHandler(newItemName, newItemDescription, 
+                        newItemQuantity, currentUser, setCurrentPage, setItems, itemID) {
+    const editItemPackage = {
+            itemName : newItemName,
+            itemDescription : newItemDescription,
+            itemQuantity : Number(newItemQuantity),
+            itemID : itemID
+    }
+    console.log("edit item package:")
+    console.log(editItemPackage)
+    axios.put('/items', editItemPackage).then((response) => {
+        const regResult = response.data;
+        if (regResult == 'ITEM_EDIT_OK') {
+            console.log("item edit edited!")
+        }
+        else {
+            console.log("item edit error!")
         }
         getUserInventory(setItems, currentUser)
         setCurrentPage('inventory') 
@@ -285,6 +308,8 @@ export function ItemDetailsButton({item}) {
                     onClick={() => {
                         //console.log("showing details for: " + item.name)
                         setDetailsTarget(item);
+                        //console.log("getting details for item")
+                        //console.log(item)
                         setCurrentPage('itemDetails');
                     }}
                 >
@@ -301,7 +326,7 @@ export function EditButton() {
             {({setCurrentPage, currentUser, detailsTarget}) => (
                 <button
                     style={styles.primaryButton}
-                    onClick={() => editHandler(currentUser, setCurrentPage, detailsTarget)}
+                    onClick={() => editMenuHandler(currentUser, setCurrentPage, detailsTarget)}
                 >
                 {editButtonText(currentUser)}
                 </button>
@@ -335,6 +360,22 @@ export function SubmitItemButton({newItemName, newItemDescription, newItemQuanti
                         newItemQuantity, currentUser, setCurrentPage, setItems)}
                 >
                 Add New Item
+                </button>
+            )}
+        </PageContext.Consumer>
+    )
+}
+export function SubmitEditItemButton({newItemName, newItemDescription, newItemQuantity, itemId}) {
+    //render
+    return (
+        <PageContext.Consumer>
+            {({setCurrentPage, currentUser, setItems}) => (
+                <button
+                    style={styles.primaryButton}
+                    onClick={() => editItemHandler(newItemName, newItemDescription, 
+                        newItemQuantity, currentUser, setCurrentPage, setItems, itemId)}
+                >
+                Edit Item
                 </button>
             )}
         </PageContext.Consumer>

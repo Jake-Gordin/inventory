@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton, EditButton, SubmitRegistrationButton,
-    SubmitLoginButton, SubmitItemButton, BackToInventoryButton} from '../components/buttons'
+    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton} from '../components/buttons'
 import {InventoryTable} from './data'
 import {PageContext} from '../App'
 //UI functions
@@ -26,7 +26,7 @@ export function MainPage() {
         </div>
     )
 }
-export function InventoryPage({items, setItems, currentUser}) {
+export function InventoryPage({items, currentUser}) {
     //render
     //console.log("items as seen by page: ")
     //console.log(items)
@@ -153,6 +153,39 @@ export function AddItemPage({currentUser}) {
             <input name='newItemDescription' onChange={changeItemDescription} placeholder="Description"></input>
             <input type='number' name='newItemQuantity' onChange={changeItemQuantity} placeholder="Quantity"></input>
             <SubmitItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity}/>
+            <BackToInventoryButton/>
+        </div>
+    )
+}
+export function EditItemPage({detailsTarget, currentUser}) {
+    //states
+    console.log("current details target:")
+    console.log(detailsTarget.id.data)
+    console.log(detailsTarget.id)
+    const [newItemName, setNewItemName] = useState(detailsTarget.name);
+    const [newItemDescription, setNewItemDescription] = useState(detailsTarget.description);
+    const [newItemQuantity, setNewItemQuantity] = useState(detailsTarget.quantity);
+    //monitor fields
+    const changeItemName = (e) => {
+        setNewItemName(e.target.value);
+    }
+    const changeItemDescription = (e) => {
+        setNewItemDescription(e.target.value);
+    }
+    const changeItemQuantity = (e) => {
+        setNewItemQuantity(e.target.value);
+    }
+    //console.log(detailsTarget)
+    //render
+    return (
+        <div style={styles.centerContainer}>
+            <h1>Logged in as: {currentUser}</h1>
+            <h1>New Item:</h1>
+            <h3>Edit item details:</h3>
+            <input name='newItemName' onChange={changeItemName} value={newItemName}></input>
+            <input name='newItemDescription' onChange={changeItemDescription} value={newItemDescription}></input>
+            <input type='number' name='newItemQuantity' onChange={changeItemQuantity} value={newItemQuantity}></input>
+            <SubmitEditItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity} itemId={detailsTarget.id}/>
             <BackToInventoryButton/>
         </div>
     )

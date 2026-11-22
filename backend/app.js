@@ -217,3 +217,47 @@ app.post('/items', (req, res) => {
       }
     })
 })
+//edit existing item
+app.put('/items', (req, res) => {
+  console.log("received edit package:")
+  console.log(req.body.itemID)
+  console.log(new Uint8Array(req.body.itemID).buffer)
+  var buffer = new Uint8Array(req.body.itemID).buffer
+  //console.log(new Uint8Array(req.body.itemID))
+    const reqData = req.body;
+    const sqlParams = [reqData.itemName, reqData.itemDescription, reqData.itemQuantity, req.body.itemID];
+    const queryText = `update items set name = ?, description = ?, quantity = ? where ID = ?;`
+    //const sqlParams = ['test item 1'];
+    //const queryText = `select ID from items where name = ?;`
+    mySQLCon.query(queryText, sqlParams, async (error, result) => {
+      if (error) {
+        console.log("DB Error: " + error.code);
+        console.log("DB Error Message: " + error.message);
+        res.send("DB ERROR: " + error.code);
+        return;
+      }
+      else {
+        res.send("ITEM_EDIT_OK")
+        //console.log(result)
+        //console.log(result[0])
+        //console.log(result[0].ID)
+      }
+    })
+})
+//delete existing item
+app.delete('/items', (req, res) => {
+    const reqData = req.body;
+    targetID = reqData.id;
+    const sqlParams = [targetID];
+    const queryText = `delete from items where ID = ?;`
+    mySQLCon.query(queryText, sqlParams, async (error, result) => {
+      if (error) {
+        console.log("DB Error: " + error.code);
+        res.send("DB ERROR: " + error.code);
+        return;
+      }
+      else {
+        res.send("ITEM_DELETE_OK");
+      }
+    })
+})
