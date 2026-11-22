@@ -27,7 +27,7 @@ export function InventoryTable({items, currentUser}) {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <ItemListEntry item={item} key={item.id.data}/>
+                    <ItemListEntry item={item} key={item.id}/>
                 ))}
                 </tbody>
             </table>
@@ -48,7 +48,7 @@ export function InventoryTable({items, currentUser}) {
                 </thead>
                 <tbody>
                 {items.map((item) => (
-                    <ItemListEntry item={item} key={item.id.data}/>
+                    <ItemListEntry item={item} key={item.id}/>
                 ))}
                 </tbody>
             </table>

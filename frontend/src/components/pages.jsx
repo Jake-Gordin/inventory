@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton, EditButton, SubmitRegistrationButton,
-    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton} from '../components/buttons'
+    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton, DeleteItemButton} from '../components/buttons'
 import {InventoryTable} from './data'
 import {PageContext} from '../App'
 //UI functions
@@ -160,7 +160,7 @@ export function AddItemPage({currentUser}) {
 export function EditItemPage({detailsTarget, currentUser}) {
     //states
     console.log("current details target:")
-    console.log(detailsTarget.id.data)
+    //console.log(detailsTarget.id.data)
     console.log(detailsTarget.id)
     const [newItemName, setNewItemName] = useState(detailsTarget.name);
     const [newItemDescription, setNewItemDescription] = useState(detailsTarget.description);
@@ -186,6 +186,7 @@ export function EditItemPage({detailsTarget, currentUser}) {
             <input name='newItemDescription' onChange={changeItemDescription} value={newItemDescription}></input>
             <input type='number' name='newItemQuantity' onChange={changeItemQuantity} value={newItemQuantity}></input>
             <SubmitEditItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity} itemId={detailsTarget.id}/>
+            <DeleteItemButton itemId={detailsTarget.id}/>
             <BackToInventoryButton/>
         </div>
     )

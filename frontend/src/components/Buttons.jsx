@@ -128,6 +128,19 @@ function editItemHandler(newItemName, newItemDescription,
         setCurrentPage('inventory') 
     })
 }
+function deleteItemHandler(currentUser, setCurrentPage, setItems, itemID) {
+    axios.delete('/items', {data: {itemID: itemID}}).then((response) => {
+        const regResult = response.data;
+        if (regResult == 'ITEM_DELETE_OK') {
+            console.log("item deleted!")
+        }
+        else {
+            console.log("item delete error!")
+        }
+        getUserInventory(setItems, currentUser)
+        setCurrentPage('inventory') 
+    })
+}
 //register new user
 async function registrationHandler(newUsername, newFirstName, newLastName, registerPassword, 
     setCurrentPage, setCurrentUser, setDuplicateUserNameMessage,
@@ -376,6 +389,21 @@ export function SubmitEditItemButton({newItemName, newItemDescription, newItemQu
                         newItemQuantity, currentUser, setCurrentPage, setItems, itemId)}
                 >
                 Edit Item
+                </button>
+            )}
+        </PageContext.Consumer>
+    )
+}
+export function DeleteItemButton({itemId}) {
+    //render
+    return (
+        <PageContext.Consumer>
+            {({setCurrentPage, setItems, currentUser}) => (
+                <button
+                    style={styles.primaryButton}
+                    onClick={() => deleteItemHandler(currentUser, setCurrentPage, setItems, itemId)}
+                >
+                Delete Item
                 </button>
             )}
         </PageContext.Consumer>

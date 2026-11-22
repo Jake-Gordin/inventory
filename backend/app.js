@@ -198,15 +198,16 @@ app.post('/items', (req, res) => {
         return;
       }
       else {
-        //console.log("with this username:")
-        //console.log(targetUser)
-        //console.log("attempting to add item with this user id:")
-        //console.log(result)
+        console.log("with this username:")
+        console.log(targetUser)
+        console.log("attempting to add item with this user id:")
+        console.log(result)
         sqlParams = [result[0].ID, reqData.itemName, reqData.itemDescription, reqData.itemQuantity];
         queryText = `insert into items (userID, name, description, quantity) values (?, ?, ?, ?);`
         mySQLCon.query(queryText, sqlParams, async (error, result) => {
         if (error) {
           console.log("DB Error: " + error.code);
+          console.log("DB Error Message: " + error.message);
           res.send("Error adding new item!");
           return;
         }
@@ -221,8 +222,8 @@ app.post('/items', (req, res) => {
 app.put('/items', (req, res) => {
   console.log("received edit package:")
   console.log(req.body.itemID)
-  console.log(new Uint8Array(req.body.itemID).buffer)
-  var buffer = new Uint8Array(req.body.itemID).buffer
+  //console.log(new Uint8Array(req.body.itemID).buffer)
+  //var buffer = new Uint8Array(req.body.itemID).buffer
   //console.log(new Uint8Array(req.body.itemID))
     const reqData = req.body;
     const sqlParams = [reqData.itemName, reqData.itemDescription, reqData.itemQuantity, req.body.itemID];
@@ -247,7 +248,9 @@ app.put('/items', (req, res) => {
 //delete existing item
 app.delete('/items', (req, res) => {
     const reqData = req.body;
-    targetID = reqData.id;
+    console.log("received delete package:");
+    console.log(reqData);
+    targetID = reqData.itemID;
     const sqlParams = [targetID];
     const queryText = `delete from items where ID = ?;`
     mySQLCon.query(queryText, sqlParams, async (error, result) => {
