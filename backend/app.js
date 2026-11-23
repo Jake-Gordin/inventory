@@ -16,8 +16,12 @@ app.use(cors());
 app.use(express.json());
 //encryption / math
 const fs = require ('fs');
+//cert directories for development (Win11 localhost)
 var cert = fs.readFileSync('./certs/localhost.pem');
 var key = fs.readFileSync('./certs/localhost-key.pem');
+//directories for production (Rocky Linux 8 snakeserver.tech)
+//var cert = fs.readFileSync('/etc/letsencrypt/live/snakeserver.tech/fullchain.pem');
+//var key = fs.readFileSync('/etc/letsencrypt/live/snakeserver.tech/privkey.pem');
 var HTTPSoptions = {
   key: key,
   cert: cert
@@ -29,6 +33,7 @@ const mySQLCon = mysql.createConnection({
   host: dbHost,
   user: dbUser,
   password: dbPass,
+  //comment out port when in production, as it uses the default
   port: dbPort,
   database: dbDatabase
 })

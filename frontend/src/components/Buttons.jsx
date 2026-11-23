@@ -2,7 +2,10 @@
 import {useState} from 'react'
 import {PageContext} from '../App'
 import axios from 'axios'
+//development (Win11)
 axios.defaults.baseURL = 'https://localhost:5555'
+//production (Rocky Linux 8)
+//axios.defaults.baseURL = 'https://snakeserver.tech:5555'
 //UI functions
 function backButtonText(currentUser) {
     if (currentUser == 'Guest') {
