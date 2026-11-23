@@ -84,6 +84,7 @@ function getUserInventory(setItems, currentUser) {
         //console.log(newItems)
     })
 }
+//add new item
 function addItemHandler(newItemName, newItemDescription, 
                         newItemQuantity, currentUser, setCurrentPage, setItems) {
     const newItemPackage = {
@@ -106,6 +107,7 @@ function addItemHandler(newItemName, newItemDescription,
         setCurrentPage('inventory') 
     })
 }
+//edit existing item
 function editItemHandler(newItemName, newItemDescription, 
                         newItemQuantity, currentUser, setCurrentPage, setItems, itemID) {
     const editItemPackage = {
@@ -128,6 +130,7 @@ function editItemHandler(newItemName, newItemDescription,
         setCurrentPage('inventory') 
     })
 }
+//delete existing item
 function deleteItemHandler(currentUser, setCurrentPage, setItems, itemID) {
     axios.delete('/items', {data: {itemID: itemID}}).then((response) => {
         const regResult = response.data;
