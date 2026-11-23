@@ -92,7 +92,7 @@ npm run build
 
 npm run dev (starting the local frontend server)
 ```
-...then just navigate to https://localhost:5173 (or whatever port is set up) and you should be right as rain. NPM install will pull down the mkcert plugin for vite, as defined in the vite.config.js file. This will handle the HTTPS certification for the server on localhost. If the certs in the backend/certs folder do not work on transfer to a different machine, new ones can be easily generated with mkcert (or whatever certification service one prefers). There are directory variables at the top of backend/app.js should one need to retarget these to enable secure communications, but I would just suggest dropping them in the provided folder.
+...then just navigate to https://localhost:5173 (or whatever port is set up, but don't forget the HTTPS bit!) and you should be right as rain. NPM install will pull down the mkcert plugin for vite, as defined in the vite.config.js file. This will handle the HTTPS certification for the server on localhost. If the certs in the backend/certs folder do not work on transfer to a different machine, new ones can be easily generated with mkcert (or whatever certification service one prefers). There are directory variables at the top of backend/app.js should one need to retarget these to enable secure communications, but I would just suggest dropping them in the provided folder.
 
 ## Conclusion
 
