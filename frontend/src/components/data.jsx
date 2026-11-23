@@ -1,4 +1,4 @@
-import { ItemDetailsButton, AddItemButton } from "./buttons"
+import { ItemDetailsButton, AddItemButton } from "./Buttons"
 function ItemListEntry(item, key) {
     //console.log("item as seen by entry: ")
     //console.log(item)
