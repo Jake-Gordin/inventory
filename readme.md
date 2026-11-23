@@ -43,7 +43,7 @@ When deploying to my server for live production version, I had to make the follo
 
 3) Changed the axios API target url from localhost to the correct live one in buttons.jsx in the frontend.
 
-4) I was not able to import the sqldump from my windows environment into the linux one (although it works fine in the same environment), so I found it a lot easier to just remake the user / tables with the appropriate statements. Those statements are:
+4) I was not able to import the sqldump from my windows environment into the linux one (located in the /database folder of this repo if you'd like to use it), so I found it a lot easier to just remake the user / tables with the appropriate statements. Those statements are:
 
 ```
 create database inventory;
