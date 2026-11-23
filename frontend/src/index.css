@@ -1,5 +1,5 @@
 body {
-  background-image: url('Stars_Background.jpg');
-  background-size: cover;
+  background: #0c172e;
+  background: linear-gradient(180deg, rgba(12, 23, 46, 1) 0%, rgba(54, 107, 145, 1) 67%, rgba(101, 151, 191, 1) 100%);
   color: azure;
 }

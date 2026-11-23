@@ -1,7 +1,6 @@
 //imports / requirements
 import {createContext, useState} from 'react'
 import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage, EditItemPage} from './components/Pages'
-import backgroundImage from '../public/Stars_Background.jpg';
 //context
 export const PageContext = createContext();
 //render
