@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton, EditButton, SubmitRegistrationButton,
-    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton, DeleteItemButton} from '../components/buttons'
+    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton, DeleteItemButton} from './buttons'
 import {InventoryTable} from './data'
 import {PageContext} from '../App'
 //UI functions
