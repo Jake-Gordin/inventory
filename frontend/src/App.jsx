@@ -1,6 +1,7 @@
 //imports / requirements
 import {createContext, useState} from 'react'
 import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage, EditItemPage} from './components/pages'
+import backgroundImage from '../public/Stars_Background.jpg';
 //context
 export const PageContext = createContext();
 //render
@@ -34,12 +35,12 @@ function App() {
 //styles
 const styles = {
   mainContainer: {
-     display: "flex",
+    display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     height: "98vh",
-    border: "2px solid gold"
+    //border: "2px solid gold"
   },
   footer: {
     marginTop: "auto",
@@ -47,7 +48,8 @@ const styles = {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    border: "2px solid blue"
+    //border: "2px solid blue",
+    fontWeight: "bold"
   }
 }
 export default App

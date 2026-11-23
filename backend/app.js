@@ -10,13 +10,12 @@ const dbPort = process.env.DB_PORT;
 //express server
 const express = require ('express');
 const cors = require('cors');
-const http = require ('http');
+const https = require ('https');
 const app = express();
 app.use(cors());
 app.use(express.json());
 //encryption / math
 const fs = require ('fs');
-const https = require ('https');
 var cert = fs.readFileSync('./certs/localhost.pem');
 var key = fs.readFileSync('./certs/localhost-key.pem');
 var HTTPSoptions = {
@@ -24,7 +23,6 @@ var HTTPSoptions = {
   cert: cert
 };
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 //connect to local db
 const mysql = require ('mysql');
 const mySQLCon = mysql.createConnection({
@@ -40,8 +38,11 @@ mySQLCon.connect(function(error) {
 //start server
 var server = https.createServer(HTTPSoptions, app);
 server.listen(listenPort, () => console.log(`server listening for https on port: ` + listenPort));
+//test call
 app.get('/test', (req, res) => {
-    res.send("Backend responds too!")
+    console.log("received test call from:")
+    console.log(req.hostname)
+    res.send("Backend responds!")
 })
 //encryption functions
 //encrypt password
@@ -56,7 +57,7 @@ async function encryptPassword(password) {
     throw error;
   }
 }
-//check password
+//compare password
 async function comparePassword(password, encryptedPassword) {
   try {
     const verdict = await bcrypt.compare(password, encryptedPassword);
@@ -74,6 +75,7 @@ app.get('/items', (req, res) => {
     mySQLCon.query(queryText, async (error, result) => {
       if (error) {
         console.log("DB Error: " + error.code);
+        console.log("DB Error Message: " + error.message);
         res.send("DB_ERROR: " + error.code);
         return;
       }

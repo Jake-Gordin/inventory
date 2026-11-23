@@ -4,10 +4,10 @@ function ItemListEntry(item, key) {
     //console.log(item)
     return (
         <tr key={key}>
-            <th>{item.item.name}</th>
-            <td>{item.item.shortDescription}</td>
-            <td>{item.item.quantity}</td>
-            <td><ItemDetailsButton item={item.item}/></td>
+            <th style={styles.inventoryTableData}>{item.item.name}</th>
+            <td style={styles.inventoryTableData}>{item.item.shortDescription}</td>
+            <td style={styles.inventoryTableData}>{item.item.quantity}</td>
+            <td style={styles.inventoryTableData}><ItemDetailsButton item={item.item}/></td>
         </tr>
     )
 }
@@ -16,13 +16,13 @@ export function InventoryTable({items, currentUser}) {
     //console.log(items)
     if (items.length > 0 && currentUser == 'Guest') {
         return (
-            <table className="table">
+            <table style={styles.inventoryTable}>
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>Details</th>
+                <tr style={styles.inventoryTableRow}>
+                    <th style={styles.inventoryTableHeader}>Name</th>
+                    <th style={styles.inventoryTableHeader}>Description</th>
+                    <th style={styles.inventoryTableHeader}>Quantity</th>
+                    <th style={styles.inventoryTableHeader}>Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,13 +37,13 @@ export function InventoryTable({items, currentUser}) {
     else if (items.length > 0 && currentUser !== 'Guest') {
         return (
             <>
-            <table className="table">
+            <table style={styles.inventoryTable}>
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>Details</th>
+                <tr style={styles.inventoryTableRow}>
+                    <th style={styles.inventoryTableHeader}>Name</th>
+                    <th style={styles.inventoryTableHeader}>Description</th>
+                    <th style={styles.inventoryTableHeader}>Quantity</th>
+                    <th style={styles.inventoryTableHeader}>Details</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -72,4 +72,19 @@ export function InventoryTable({items, currentUser}) {
             )
         }
     }
+}
+//styles
+const styles = {
+  inventoryTable: {
+   
+  },
+  inventoryTableRow: {
+   
+  },
+  inventoryTableHeader: {
+    padding: "1vw"
+  },
+  inventoryTableData: {
+   textAlign: "center"
+  }
 }

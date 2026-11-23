@@ -198,7 +198,9 @@ const styles = {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    border: "2px solid pink"
+    border: "2px solid azure",
+    marginTop: "15vh",
+    padding: "2vw"
   },
   usernameInput: {
     padding: "4px",
