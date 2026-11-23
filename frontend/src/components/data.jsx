@@ -82,9 +82,10 @@ const styles = {
    
   },
   inventoryTableHeader: {
-    padding: "1vw"
+    padding: "4vw"
   },
   inventoryTableData: {
-   textAlign: "center"
+   textAlign: "center",
+   maxWidth: "20vw"
   }
 }

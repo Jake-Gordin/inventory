@@ -18,7 +18,7 @@ export function MainPage() {
     return (
         <div style={styles.centerContainer}>
             <h1>Welcome to the inventory!</h1>
-            <h2>You can click the button below to continue as guest obviously</h2>
+            <h2>Click below to view all items as a guest</h2>
             <GuestButton/>
             <h2>Or, click below to login / register</h2>
             <RegisterButton/>
@@ -47,25 +47,25 @@ export function ItemDetailsPage({detailsTarget}) {
         <div style={styles.centerContainer}>
             <h2>Currently logged in as: {currentUser}</h2>
             <h2>Details for {detailsTarget.name}:</h2>
-             <table className="table">
+             <table style={styles.inventoryTable}>
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th>{editColumnText(currentUser)}</th>
+                <tr style={styles.inventoryTableRow}>
+                    <th style={styles.inventoryTableHeader}>Name</th>
+                    <th style={styles.inventoryTableHeader}>Description</th>
+                    <th style={styles.inventoryTableHeader}>Quantity</th>
+                    {(currentUser != 'Guest') && <th style={styles.inventoryTableHeader}>{editColumnText(currentUser)}</th>}
                 </tr>
                 </thead>
                 <tbody>
-                <tr key={detailsTarget.id}>
-                    <th>{detailsTarget.name}</th>
-                    <td>{detailsTarget.description}</td>
-                    <td>{detailsTarget.quantity}</td>
-                    <td><EditButton buttonText={"Cancel"}/></td>
+                <tr key={detailsTarget.id} style={styles.inventoryTableRow}>
+                    <th style={styles.inventoryTableData}>{detailsTarget.name}</th>
+                    <td style={styles.inventoryTableData}>{detailsTarget.description}</td>
+                    <td style={styles.inventoryTableData}>{detailsTarget.quantity}</td>
+                    {(currentUser != 'Guest') && <td style={styles.inventoryTableData}><EditButton buttonText={"Cancel"}/></td>}
                 </tr>
                 </tbody>
             </table>
-            <BackButton/>
+            <BackToInventoryButton/>
         </div>
         )}
         </PageContext.Consumer>
@@ -182,9 +182,9 @@ export function EditItemPage({detailsTarget, currentUser}) {
             <h1>Logged in as: {currentUser}</h1>
             <h1>New Item:</h1>
             <h3>Edit item details:</h3>
-            <input name='newItemName' onChange={changeItemName} value={newItemName}></input>
-            <input name='newItemDescription' onChange={changeItemDescription} value={newItemDescription}></input>
-            <input type='number' name='newItemQuantity' onChange={changeItemQuantity} value={newItemQuantity}></input>
+            <input style={styles.editField} name='newItemName' onChange={changeItemName} value={newItemName}></input>
+            <textarea style={styles.editDescriptionField} name='newItemDescription' onChange={changeItemDescription} value={newItemDescription}></textarea>
+            <input style={styles.editField} type='number' name='newItemQuantity' onChange={changeItemQuantity} value={newItemQuantity}></input>
             <SubmitEditItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity} itemId={detailsTarget.id}/>
             <DeleteItemButton itemId={detailsTarget.id}/>
             <BackToInventoryButton/>
@@ -205,5 +205,27 @@ const styles = {
   usernameInput: {
     padding: "4px",
     margin: "5px"
+  },
+  inventoryTable: {
+   
+  },
+  inventoryTableRow: {
+   
+  },
+  inventoryTableHeader: {
+    padding: "4vw"
+  },
+  inventoryTableData: {
+   textAlign: "center",
+   maxWidth: "20vw"
+  },
+  editDescriptionField: {
+    padding: "1vh",
+    marginTop: "1vh",
+    minHeight: "20vh"
+  },
+  editField: {
+    padding: "1vh",
+    marginTop: "1vh"
   }
 }

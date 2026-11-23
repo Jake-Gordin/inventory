@@ -412,7 +412,10 @@ export function DeleteItemButton({itemId}) {
 //styles
 const styles = {
   primaryButton: {
-    padding: "4px",
-    margin: "5px"
+    padding: "6px",
+    margin: "5px",
+    border: "1px solid azure",
+    backgroundColor: "transparent",
+    color: "azure"
   }
 }
