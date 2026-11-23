@@ -149,9 +149,9 @@ export function AddItemPage({currentUser}) {
             <h1>Logged in as: {currentUser}</h1>
             <h1>New Item:</h1>
             <h3>Add item details:</h3>
-            <input name='newItemName' onChange={changeItemName} placeholder="Item Name"></input>
-            <input name='newItemDescription' onChange={changeItemDescription} placeholder="Description"></input>
-            <input type='number' name='newItemQuantity' onChange={changeItemQuantity} placeholder="Quantity"></input>
+            <input style={styles.editField} name='newItemName' onChange={changeItemName} placeholder="Item Name"></input>
+            <textarea style={styles.editDescriptionField} name='newItemDescription' onChange={changeItemDescription} placeholder="Description"></textarea>
+            <input style={styles.editField} type='number' name='newItemQuantity' onChange={changeItemQuantity} placeholder="Quantity"></input>
             <SubmitItemButton newItemName={newItemName} newItemDescription={newItemDescription} newItemQuantity={newItemQuantity}/>
             <BackToInventoryButton/>
         </div>
