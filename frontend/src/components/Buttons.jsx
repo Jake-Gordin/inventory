@@ -391,7 +391,7 @@ export function SubmitEditItemButton({newItemName, newItemDescription, newItemQu
                     onClick={() => editItemHandler(newItemName, newItemDescription, 
                         newItemQuantity, currentUser, setCurrentPage, setItems, itemId)}
                 >
-                Edit Item
+                Save
                 </button>
             )}
         </PageContext.Consumer>

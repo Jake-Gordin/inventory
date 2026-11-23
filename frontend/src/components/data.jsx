@@ -1,4 +1,4 @@
-import { ItemDetailsButton, AddItemButton } from "./Buttons"
+import { ItemDetailsButton, AddItemButton } from "./buttons"
 function ItemListEntry(item, key) {
     //console.log("item as seen by entry: ")
     //console.log(item)
@@ -86,6 +86,8 @@ const styles = {
   },
   inventoryTableData: {
    textAlign: "center",
-   maxWidth: "20vw"
+   maxWidth: "20vw",
+   wordWrap: "break-word",
+   padding: "2vh"
   }
 }

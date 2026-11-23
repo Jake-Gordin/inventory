@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {GuestButton, RegisterButton, LoginButton, BackButton, EditButton, SubmitRegistrationButton,
-    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton, DeleteItemButton} from './Buttons'
-import {InventoryTable} from './Data'
+    SubmitLoginButton, SubmitItemButton, BackToInventoryButton, SubmitEditItemButton, DeleteItemButton} from './buttons'
+import {InventoryTable} from './data'
 import {PageContext} from '../App'
 //UI functions
 function editColumnText(currentUser) {
@@ -96,10 +96,10 @@ export function RegisterPage({duplicateUserNameMessage}) {
             <h1>New User Registration</h1>
             <h2>Please complete the following fields:</h2>
             {duplicateUserNameMessage && <h3>Username is already registered! Please select another.</h3>}
-            <input name='newUsername' onChange={changeNewUserName} placeholder="Username"></input>
-            <input name='newFirstName' onChange={changeNewFirstName} placeholder="First Name"></input>
-            <input name='newLastName' onChange={changeNewLastName} placeholder="Last Name"></input>
-            <input name='newPassword' onChange={changeNewPassword} placeholder="Password"></input>
+            <input style={styles.usernameInput} name='newUsername' onChange={changeNewUserName} placeholder="Username"></input>
+            <input style={styles.usernameInput} name='newFirstName' onChange={changeNewFirstName} placeholder="First Name"></input>
+            <input style={styles.usernameInput} name='newLastName' onChange={changeNewLastName} placeholder="Last Name"></input>
+            <input style={styles.usernameInput} name='newPassword' onChange={changeNewPassword} placeholder="Password"></input>
             <SubmitRegistrationButton newUsername={newUserName} newFirstName={newFirstName} newLastName={newLastName} registerPassword={registerPassword}/>
             <BackButton/>
         </div>
@@ -121,8 +121,8 @@ export function LoginPage({incorrectLoginMessage}) {
         <div style={styles.centerContainer}>
             <h1>Login:</h1>
             {incorrectLoginMessage && <h3>Login error: please check Username and Password.</h3>}
-            <input name='loginUsername' onChange={changeLoginUserName} placeholder="Username"></input>
-            <input name='loginPassword' onChange={changeLoginPassword} placeholder="Password"></input>
+            <input style={styles.usernameInput} name='loginUsername' onChange={changeLoginUserName} placeholder="Username"></input>
+            <input style={styles.usernameInput} name='loginPassword' onChange={changeLoginPassword} placeholder="Password"></input>
             <SubmitLoginButton loginUserName={loginUserName} loginPassword={loginPassword}/>
             <BackButton/>
         </div>
@@ -217,7 +217,9 @@ const styles = {
   },
   inventoryTableData: {
    textAlign: "center",
-   maxWidth: "20vw"
+   maxWidth: "20vw",
+   wordWrap: "break-word",
+   padding: "2vh"
   },
   editDescriptionField: {
     padding: "1vh",

@@ -1,6 +1,6 @@
 //imports / requirements
 import {createContext, useState} from 'react'
-import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage, EditItemPage} from './components/Pages'
+import {MainPage, RegisterPage, InventoryPage, ItemDetailsPage, LoginPage, AddItemPage, EditItemPage} from './components/pages'
 //context
 export const PageContext = createContext();
 //render
