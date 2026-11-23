@@ -147,12 +147,12 @@ function deleteItemHandler(currentUser, setCurrentPage, setItems, itemID) {
 //register new user
 async function registrationHandler(newUsername, newFirstName, newLastName, registerPassword, 
     setCurrentPage, setCurrentUser, setDuplicateUserNameMessage,
-    setItems, currentUser) {
-    //console.log("read params as " + newUsername + " " + newFirstName + " " + newLastName + " " + registerPassword)
+    setItems) {
+    console.log("read params as " + newUsername + " " + newFirstName + " " + newLastName + " " + registerPassword)
     const registrationPackage = {
-            firstName : newUsername,
-            lastName : newFirstName,
-            userName : newLastName,
+            firstName : newFirstName,
+            lastName : newLastName,
+            userName : newUsername,
             password : registerPassword
     }
     //console.log("sending registration request")
@@ -290,7 +290,7 @@ export function SubmitRegistrationButton({newUsername, newFirstName, newLastName
                     style={styles.primaryButton}
                     onClick={() => registrationHandler(newUsername, newFirstName, 
                         newLastName, registerPassword, setCurrentPage, setCurrentUser, 
-                        setDuplicateUserNameMessage, setItems, currentUser)}
+                        setDuplicateUserNameMessage, setItems)}
                 >
                 Submit Registration
                 </button>
